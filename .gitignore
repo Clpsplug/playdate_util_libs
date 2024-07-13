@@ -1,8 +1,14 @@
-cmake-build-*/
+# Clion makes this directory
+**/cmake-build-*/
 **/build*/
 
+# Stuff made by pdc
 **/*.elf
 **/*.dylib
 **/*.dll
 **/*.a
 *.pdx/**/*
+
+# Installed stuff
+**/include/*
+**/lib/*
