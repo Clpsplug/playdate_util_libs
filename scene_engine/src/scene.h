@@ -12,7 +12,7 @@
  * @li @c eventFunction A function that handles Playdate system events besides kEventInit and kEventTerminate
  * @li @c unloadFunction A function that handles unloading the scene (freeing stuff).
  *
- * Though the identifier is required, not all function pointers must be filled.
+ * Only the identifier is required; not all function pointers must be filled.
  * If there is no reason to assign functions, just assign NULL.
  *
  * @par Defining a scene:
