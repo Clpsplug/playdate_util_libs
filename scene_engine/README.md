@@ -13,7 +13,7 @@ A scene is defined with the `Scene` struct and consists of the following five el
 *  `unloadFunction` A function that handles unloading the scene (freeing stuff).
 
 Only the identifier is required; not all function pointers must be filled.
-If there is no reason to assign functions, just assign NULL.
+If there is no reason to assign functions, assigning `NULL` will be enough.
 
 ## Defining a scene
 Include `scene.h` header file in the implementation (i.e., C file) to define a scene,
@@ -47,7 +47,7 @@ and thus can be static functions in the C file.
 
 ## Registering a scene
 A scene must be registered to the system before it's usable.  
-Simply call the definition-returning function defined like above
+Call the definition-returning function defined like above
 and supply it to `pdScene_Register(void*)` API.
 
 ```c
@@ -74,7 +74,7 @@ To load (start) a scene, call pdScene_Load with the identifier you've specified
 in the definition.  
 If you supply a pointer to the second argument,
 it will be available in the initFunction of the corresponding scene.  
-If you don't need it, just pass `NULL`.
+If you don't need it, passing `NULL` will be enough.
 
 ```c
 pdScene_Load(EXAMPLE_SCREEN, NULL);

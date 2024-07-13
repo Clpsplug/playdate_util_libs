@@ -69,7 +69,7 @@ typedef struct FontTag {
      * @brief Height of a given font.
      *
      * @remarks Depending on how this struct was populated,
-     *          This might include a margin pixels
+     *          This might include some margin pixels
      *          to the original height of the font.
      */
     uint8_t height;
@@ -151,7 +151,7 @@ void *pd_Malloc(size_t size);
  *     void* ptr = pd_Malloc(sizeof(char) * 42);
  *     void* newPtr = pd_Realloc(ptr, sizeof(char) * 84);
  *     if (newPtr == NULL) {
- *       pd
+ *       pd_Log("Memory allocation failure");
  *       return;
  *     }
  *
@@ -233,7 +233,7 @@ void pd_DisplayString(uint32_t encoding, int32_t x, int32_t y, const char *fmt, 
  * @brief Calculates the string width of given text using the current tracking value.
  * 
  * There's a potential performance impact;
- * be conservative in using this API.
+ * avoid calling this API like every frame.
  * 
  * @param[in] font     @c Font object.
  * @param[in] encoding @c PDStringEncoding value.
