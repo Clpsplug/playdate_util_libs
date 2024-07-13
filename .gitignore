@@ -12,3 +12,6 @@
 # Installed stuff
 **/include/*
 **/lib/*
+
+.idea/.name
+.idea/misc.xml
