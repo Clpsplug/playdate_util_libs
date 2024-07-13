@@ -7,7 +7,18 @@
 
 ## How to build / use
 
-(TODO)
+### On macOS/Linux
+
+```console
+$ cmake .
+$ cmake --build . --target build_util_libs
+```
+
+### On Windows
+
+Untested, but you should be able to use cygwin to run the above.
+
+TODO: Add 'Windows' way to get the project running.
 
 ## License
 
