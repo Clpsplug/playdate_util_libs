@@ -139,7 +139,7 @@ void pd_Free(void *ptr);
 API that replicates free(3).
 
 #### Parameters
-* [in] ptr Pointer to free.
+* [in] `ptr` Pointer to free.
 
 
 > [!NOTE]
@@ -165,10 +165,12 @@ and also stores the height of the font for later use.
 * [in]  `font_path`     Path to the font.
 * [in]  `height_margin` This value will be added to the actual font height.
                         Useful when you want to ensure the glyphs don't collide.
-* [out] `font`          Specify the pointer to @c Font struct defined in this header.
+* [out] `font`          Specify the pointer to `Font` struct defined in this header.
                         This API will write information of loaded font there.
 * [out] `err`           Should an error occurs, this string will be populated.
 
+### Returns
+`true`(1) on success, `false`(0) on failure (`true`/`false` as in `stdbool.h`)
 
 ### pd_DisplayString
 
