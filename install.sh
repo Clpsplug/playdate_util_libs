@@ -46,13 +46,8 @@ function build() {
   popd > /dev/null || exit 2
 }
 
-# exclude include and lib directory
-for dir in */; do
-  case $dir in
-    "include/"|"lib/") ;;
-    *) 
-      build "$dir" "device"
-      build "$dir" "simulator"
-      ;;
-  esac
-done
+# Specify the order to get rid of dependency issue
+build "shorthand" "device"
+build "shorthand" "simulator"
+build "scene_engine" "device"
+build "scene_engine" "simulator"
