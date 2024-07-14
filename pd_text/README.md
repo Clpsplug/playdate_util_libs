@@ -2,6 +2,21 @@
 
 Helper functions for text-related operations.
 
+## Types
+
+### Font (struct)
+
+This struct is designed to hold more information in addition to `LCDFont` struct.
+
+#### LCDFont* font
+
+This is the same as `LCDFont` found in Playdate API.
+
+#### uint8_t height
+
+This is the 'height' of the font, but it can include some margin pixels
+to the original height of the font.
+
 ## Functions
 
 ### pdText_Initialize
