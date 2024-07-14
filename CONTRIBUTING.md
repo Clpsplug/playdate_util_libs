@@ -66,6 +66,7 @@ If you have an idea of what to add to this library, go ahead and make a PR!
 ### Functions and Methods
 * The functions should be named `<module name>_<method name>`
   * Module name should be camelCase, while method name should be PascalCase.
+* Internal functions (that are not exposed via header) MUST be marked `static`.
 
 ### Structs, Enums and Unions
 * Their names should be PascalCase.

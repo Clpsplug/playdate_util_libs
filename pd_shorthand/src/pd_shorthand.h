@@ -53,29 +53,6 @@
 #define pd_ErrorF(fmt, ...) pd_getPd()->system->error(fmt, __VA_ARGS__)
 
 /**
- * @brief Font information.
- *
- * This struct provides additional info to LCDFont from Playdate API.
- */
-typedef struct FontTag {
-    /**
-     * @brief The Playdate's LCDFont struct.
-     *
-     * Can be passed into @c playdate->graphics->setFont
-     */
-    LCDFont *font;
-
-    /**
-     * @brief Height of a given font.
-     *
-     * @remarks Depending on how this struct was populated,
-     *          This might include some margin pixels
-     *          to the original height of the font.
-     */
-    uint8_t height;
-} Font;
-
-/**
  * Use this union to perform alignment-safe type punning
  * between void* and PlaydateAPI*.
  *
@@ -195,60 +172,6 @@ void pd_Log(const char* msg);
  */
 void pd_Error(const char* msg);
 
-/**
- * @brief Shorthand for @c playdate->graphics->loadFont plus some useful info.
- *
- * This API loads a font from given @c font_path,
- * and also stores the height of the font for later use.
- *
- * @param[in]  font_path     Path to the font.
- * @param[in]  height_margin This value will be added to the actual font height.
- *                           Useful when you want to ensure the glyphs don't collide.
- * @param[out] font          Specify the pointer to @c Font struct defined in this header.
- *                           This API will write information of loaded font there.
- * @param[out] err           Should an error occurs, this string will be populated.
- * @returns true(1) on success, false(0) on failure (true/false as in stdbool.h)
- */
-bool pd_LoadFont(const char *font_path, uint8_t height_margin, Font *font, const char **err);
-
-/**
- * @brief Shorthand for @c playdate->graphics->drawText .
- *
- * Because it takes 4 lines to display a formatted string on the screen
- * and it could potentially create memory leak,
- * this API takes all necessary parameters at once
- * and display the text at the given coordinates
- * while also making sure that the memory is properly freed.
- *
- * @param[in] encoding PDStringEncoding value.
- * @param[in] x        X-axis position.
- * @param[in] y        Y-axis position.
- * @param[in] fmt      Format string.
- * @param[in] ...      Variadic arguments, used to format @c fmt .
- *                     Works identically to sprintf.
- */
-void pd_DisplayString(uint32_t encoding, int32_t x, int32_t y, const char *fmt, ...);
-
-/**
- * @brief Calculates the string width of given text using the current tracking value.
- * 
- * There's a potential performance impact;
- * avoid calling this API like every frame.
- * 
- * @param[in] font     @c Font object.
- * @param[in] encoding @c PDStringEncoding value.
- * @param[in] text     string to display.
- * 
- * @warning This API will use the current Text Tracking value.
- */
-uint16_t pd_GetStringWidth(const Font* font, uint32_t encoding, const char *text);
-
-/**
- * @brief Frees the font loaded by @c pd_LoadFont.
- *
- * @param[in] font @c Font struct to free.
- */
-void pd_FreeFont(Font *font);
 
 
 /**

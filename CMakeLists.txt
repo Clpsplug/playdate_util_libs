@@ -12,6 +12,7 @@ set(CMAKE_INSTALL_PREFIX ${ROOT_DIR} CACHE PATH "Installation dir" FORCE)
 # List of subprojects
 set(SUBPROJECTS
         pd_shorthand
+        pd_text
         scene_engine
 )
 
