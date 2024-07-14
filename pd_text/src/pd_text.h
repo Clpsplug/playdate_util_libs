@@ -32,7 +32,7 @@ typedef struct FontTag {
  *
  * @param[in] pd Playdate context object
  */
-void pdText_Initialize(void* pd);
+void pdText_Initialize(void *pd);
 
 /**
  * @brief Shorthand for @c playdate->graphics->loadFont plus some useful info.
@@ -51,6 +51,31 @@ void pdText_Initialize(void* pd);
 bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, const char **err);
 
 /**
+ * @brief Formats a string then writes the 'wrap-around' text into the buffer.
+ *
+ * Since @c playdate->graphics->drawText draws text even if it's off the screen,
+ * using this function will avoid unwanted cut-off texts.
+ *
+ * @param[in]  font      @c Font object.
+ * @param[out] out_str   Array of string where the wrapped texts' pointers will be written to.
+ *                       MUST be the same size as @c max_lines.
+ * @param[in]  max_lines Number of times to wrap at most.
+ *                       If the input text is so large that it needs more wraps than this value,
+ *                       the function will attempt to wrap the text up to this number of times
+ *                       while the rest of the text will be left untouched.
+ * @param[in]  max_width Maximum allowed width of the text.
+ * @param[in]  encoding  PDStringEncoding value.
+ * @param[in]  fmt       String format (as in printf)
+ * @param[in]  ...       Variadic arguments, used to format @c fmt .
+ * @returns Number of valid lines returned from this function. Is always less than or equal to @c max_lines .
+ * @warning This function is potentially computationally costly.
+ *          Use it wherever there's a lot of CPU time to spare,
+ *          or a performance hit itself is acceptable (such as when loading).
+ *          This function allocates some heap memory internally.
+ */
+uint32_t pdText_GetWrappedText(const Font* font, const char **out_str, uint32_t max_lines, uint16_t max_width, PDStringEncoding encoding, const char *fmt, ...);
+
+/**
  * @brief Shorthand for @c playdate->graphics->drawText .
  *
  * Because it takes 4 lines to display a formatted string on the screen
@@ -66,7 +91,7 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
  * @param[in] ...      Variadic arguments, used to format @c fmt .
  *                     Works identically to sprintf.
  */
-void pdText_DisplayString(uint32_t encoding, int32_t x, int32_t y, const char *fmt, ...);
+void pdText_DisplayString(PDStringEncoding encoding, int32_t x, int32_t y, const char *fmt, ...);
 
 /**
  * @brief Shorthand for @c playdate->graphics->setFont and @c playdate->graphics->drawText .
@@ -85,7 +110,7 @@ void pdText_DisplayString(uint32_t encoding, int32_t x, int32_t y, const char *f
  * use this function for the first one and use @c pdText_DisplayString for the rest,
  * which will save a function call.
  */
-void pdText_DisplayStringWithFont(Font* font, uint32_t encoding, int32_t x, int32_t y, const char *fmt, ...);
+void pdText_DisplayStringWithFont(Font *font, uint32_t encoding, int32_t x, int32_t y, const char *fmt, ...);
 
 /**
  * @brief Calculates the string width of given text using the current tracking value.
