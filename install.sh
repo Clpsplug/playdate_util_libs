@@ -4,7 +4,7 @@ set -e
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-function build_and_install() 
+function build_and_install()
 {
   echo "-- Building for $2 --"
   pushd "${SCRIPT_DIR:?}/$1" > /dev/null || ( echo "pushd to ${SCRIPT_DIR:?}/$1 failed"; exit 1 )
@@ -27,17 +27,17 @@ function build_and_install()
 }
 
 if [ -z "$SCRIPT_DIR" ]; then
-    echo "Could not get script directory... this is odd."
-    exit 1
-fi 
+  echo "Could not get script directory... this is odd."
+  exit 1
+fi
 
 if [ -d "$SCRIPT_DIR/include" ]; then
-    /bin/rm -r "${SCRIPT_DIR:?}/include"
+  /bin/rm -r "${SCRIPT_DIR:?}/include"
 fi
 
 if [ -d "$SCRIPT_DIR/lib" ]; then
-    /bin/rm -r "${SCRIPT_DIR:?}/lib"
-fi 
+  /bin/rm -r "${SCRIPT_DIR:?}/lib"
+fi
 
 if [ -d "$SCRIPT_DIR/build" ]; then
   /bin/rm -r "${SCRIPT_DIR:?}/build"

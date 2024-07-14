@@ -39,7 +39,7 @@ static void assert_memory_leak(void);
 static int find_empty_entry_and_add(void *ptr, size_t size);
 #endif
 
-void pd_Init(void *ctx) {
+void pd_Initialize(void *ctx) {
     PDContextLoader ld = {ctx};
     s_pd = ld.pd;
 }
@@ -90,7 +90,7 @@ void pd_DisplayString(uint32_t encoding, int32_t x, int32_t y, const char *fmt, 
     s_pd->system->realloc(out, 0);
 }
 
-uint16_t pd_GetStringWidth(const Font* font, const uint32_t encoding, const char* text) {
+uint16_t pd_GetStringWidth(const Font *font, const uint32_t encoding, const char *text) {
     return s_pd->graphics->getTextWidth(font->font, text, strlen(text), encoding, s_pd->graphics->getTextTracking());
 }
 

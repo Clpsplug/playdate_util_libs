@@ -16,7 +16,7 @@ int eventHandler(PlaydateAPI* pd, PDSystemEvent event, uint32_t arg)
 {
     switch (event){
     case kEventInit:
-        pd_Init(pd); /* Run this before anything */
+        pd_Initialize(pd); /* Run this before anything */
         break;
     case kEventTerminate:
         pd_Finalize();

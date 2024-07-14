@@ -112,7 +112,7 @@ typedef union PDContextLoaderTag {
  *
  * @param[in] pd PlaydateAPI* object.
  */
-void pd_Init(void *pd);
+void pd_Initialize(void *pd);
 
 /**
  * @brief Finalizes the PD shorthand library.
