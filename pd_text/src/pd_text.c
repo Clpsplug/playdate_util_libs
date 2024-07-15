@@ -53,17 +53,6 @@ uint32_t pdText_GetWrappedText(
     char *out;
     size_t len = s_pd->system->vaFormatString(&out, fmt, v_list);
 
-    if (out_str == NULL) {
-        /* If out_str is not supplied, allocate out_str. The user is responsible for freeing this. */
-        out_str = s_pd->system->realloc(NULL, sizeof(char **));
-        if (out_str == NULL) {
-            s_pd->system->error(
-                "PDText Error: Memory allocation failure for generating wrapped text."
-            );
-            return 0;
-        }
-    }
-
     /* If max_lines == 1, then there's no way we can wrap this text. */
     if (max_lines == 1) {
         s_pd->system->logToConsole(
@@ -115,7 +104,6 @@ uint32_t pdText_GetWrappedText(
             if (text_width > max_width) break;
         }
         uint32_t split_point = split_points[split_point_index - 1];
-        /* Overwrite the character at split_points[split_point_index] at this point */
         out[split_point] = '\n';
         /* The new string offset will be the split point + 1 */
         str_offset = split_point + 1;
