@@ -3,19 +3,13 @@
 #include <pd_api.h>
 #include <pd_shorthand.h>
 
-/**
- * @brief Value for invalid scene ID.
- *
- * This should NOT be used by user - doing so will crash the game.
- */
-#define INVALID_SCENE_ID UINT32_MAX
 
 /**
  * @brief Definition of an invalid scene.
  *
  * Reference this if there is no scene loaded.
  */
-static Scene invalid_scene = {INVALID_SCENE_ID, NULL, NULL, NULL, NULL};
+static Scene invalid_scene = {PD_SCENE_INVALID_SCENE_ID, NULL, NULL, NULL, NULL};
 
 /**
  * @brief Scene registration struct
@@ -69,8 +63,8 @@ void pdScene_Register(void *rawScene) {
 
     SceneLoader loader = {rawScene};
     Scene *scene = loader.scene;
-    if (scene->sceneIdentifier == INVALID_SCENE_ID) {
-        s_pd->system->error("%d is reserved as invalid scene ID. Please don't use it.", INVALID_SCENE_ID);
+    if (scene->sceneIdentifier == PD_SCENE_INVALID_SCENE_ID) {
+        s_pd->system->error("%d is reserved as invalid scene ID. Please don't use it.", PD_SCENE_INVALID_SCENE_ID);
         return;
     }
     if (s_registrations.count == s_registrations.capacity) {

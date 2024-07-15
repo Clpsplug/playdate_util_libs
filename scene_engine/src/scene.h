@@ -70,6 +70,13 @@
 #include <stdlib.h>
 
 /**
+ * @brief Value for invalid scene ID.
+ *
+ * This should NOT be used by user - doing so will crash the game.
+ */
+#define PD_SCENE_INVALID_SCENE_ID UINT32_MAX
+
+/**
  * @brief An unsigned integer to identify given scene.
  *
  * This value must be unique throughout the game.
