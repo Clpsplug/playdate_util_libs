@@ -4,10 +4,7 @@
 #include <string.h>
 #include <math.h>
 
-#define max(a, b) \
-   ({ __typeof__ (a) _a = (a); \
-       __typeof__ (b) _b = (b); \
-     _a > _b ? _a : _b; })
+#define max(a, b) ((a) > (b) ? (a) : (b))
 
 typedef union PDContextLoaderTag {
     void *raw_ptr;
@@ -100,14 +97,16 @@ uint32_t pdText_GetWrappedText(
                 encoding,
                 s_pd->graphics->getTextTracking()
             );
-            split_point_index++;
             if (text_width > max_width) break;
+            split_point_index++;
         }
-        uint32_t split_point = split_points[split_point_index - 1];
+        /* If the very first word is super long, perform a wrap at first space character. */
+        uint32_t split_point = split_points[max(0, split_point_index - 1)];
         out[split_point] = '\n';
         /* The new string offset will be the split point + 1 */
         str_offset = split_point + 1;
         line_count++;
+        split_point_index++;
     }
 
     *out_str = out;
