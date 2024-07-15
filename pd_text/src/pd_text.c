@@ -84,7 +84,7 @@ uint32_t pdText_GetWrappedText(
     int line_count = 0;
     uint32_t str_offset = 0;
     int32_t split_point_index = 0;
-    while (line_count < max_lines && split_point_index < split_count) {
+    while (line_count < max_lines) {
         while (split_point_index < space_count) {
             /* Expand this line until we go over the maximum width allowed */
             uint32_t split_point = split_points[split_point_index];
