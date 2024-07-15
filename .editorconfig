@@ -8,6 +8,18 @@ insert_final_newline = true
 [{*.c,*.h}]
 indent_size = 4
 max_line_length = 120
+ij_c_indent_block_comment = true
+ij_c_indent_c_struct_members = 4
+ij_c_indent_case_from_switch = true
+ij_c_indent_class_members = 4
+ij_c_indent_directive_as_code = false
+ij_c_indent_implementation_members = 0
+ij_c_indent_inside_code_block = 4
+ij_c_indent_interface_members = 0
+ij_c_indent_interface_members_except_ivars_block = false
+ij_c_indent_namespace_members = 4
+ij_c_indent_preprocessor_directive = 0
+ij_c_indent_visibility_keywords = 0
 
 [*.sh]
 indent_size = 2
@@ -18,3 +30,4 @@ indent_size = 2
 
 [CMakeLists.txt]
 indent_size = 4
+ij_cmake_indent_size = 4

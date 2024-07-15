@@ -59,14 +59,16 @@ In addition to `PlaydateAPI::system::realloc`, those functions are implemented:
 ```c
 void *pd_Malloc(size_t size);
 ```
+
 API that replicates malloc(3).
 
 #### Parameters
+
 * [in] `size` Memory allocation size to request.
 
 #### Returns
-Pointer to the allocated memory, or `NULL` if allocation fails.
 
+Pointer to the allocated memory, or `NULL` if allocation fails.
 
 ### pd_Realloc
 
@@ -79,15 +81,16 @@ API that replicates realloc(3).
 Same as `PlaydateAPI::system::realloc`, but exists for completeness's sake.
 
 #### Parameters
+
 * [in] `ptr`  Pointer to the original memory location.
-* [in] `size` New requested size. 
+* [in] `size` New requested size.
 
 #### Returns
 
 Pointer to the re-allocated memory, or NULL if allocation fails.
 
 > [!WARNING]
-> 
+>
 > It is **NOT** guaranteed that this API returns the same pointer as `ptr`.
 > If the new allocation is impossible at the given pointer,
 > the system will assign a new location in RAM and return that as the pointer.
@@ -96,8 +99,9 @@ Pointer to the re-allocated memory, or NULL if allocation fails.
 > because if you do, your program may dereference pointers
 > that shouldn't be dereferenced when the allocation fails.  
 > **Always** check for `NULL` before assigning the new pointer.  
-> Also, be advised that overuse of this API may lead to [RAM fragmentation](https://en.wikipedia.org/wiki/Fragmentation_(computing)).
-> 
+> Also, be advised that overuse of this API may lead
+> to [RAM fragmentation](https://en.wikipedia.org/wiki/Fragmentation_(computing)).
+>
 > ```c
 > #include <pd_shorthand.h>
 > 
@@ -112,13 +116,14 @@ Pointer to the re-allocated memory, or NULL if allocation fails.
 > ```
 
 #### Remarks
+
 When expanding the allocation using this API, the content of the memory
 **IS** guaranteed to be intact, even if the returned pointer is not equal to ptr.
 Also, if the system moves your allocation, the previously-allocated RAM
 will be automatically freed.
 
-
 ### pd_Free
+
 ```c
 void pd_Free(void *ptr);
 ```
@@ -126,11 +131,11 @@ void pd_Free(void *ptr);
 API that replicates free(3).
 
 #### Parameters
+
 * [in] `ptr` Pointer to free.
 
-
 > [!NOTE]
-> 
+>
 > If you define `PD_SHORTHAND_DEBUG`, you can unlock an experimental feature
 > where this library reports possible memory leaks upon finalization.
 

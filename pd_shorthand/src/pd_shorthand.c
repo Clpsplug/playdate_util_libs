@@ -76,8 +76,31 @@ void pd_Log(const char *msg) {
     s_pd->system->logToConsole(msg);
 }
 
+void pd_LogF(const char *fmt, ...) {
+    va_list v_list;
+    va_start(v_list, fmt);
+    char *out;
+    s_pd->system->vaFormatString(&out, fmt, v_list);
+    va_end(v_list);
+
+    s_pd->system->logToConsole(out);
+    s_pd->system->realloc(out, 0);
+}
+
 void pd_Error(const char *msg) {
     s_pd->system->error(msg);
+}
+
+void pd_ErrorF(const char *fmt, ...) {
+    va_list v_list;
+    va_start(v_list, fmt);
+    char *out;
+    s_pd->system->vaFormatString(&out, fmt, v_list);
+    va_end(v_list);
+
+    s_pd->system->error(out);
+    /* On devices, we don't actually get here, but still. */
+    s_pd->system->realloc(out, 0);
 }
 
 PlaydateAPI *pd_getPd(void) {

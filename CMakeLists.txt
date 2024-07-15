@@ -23,13 +23,13 @@ endforeach ()
 
 # Collect target names from subprojects
 set(TARGET_NAMES)
-foreach(SUBPROJECT ${SUBPROJECTS})
+foreach (SUBPROJECT ${SUBPROJECTS})
     if (TOOLCHAIN STREQUAL "armgcc")
         list(APPEND TARGET_NAMES ${SUBPROJECT})
     else ()
         list(APPEND TARGET_NAMES ${SUBPROJECT}_Sim)
-    endif()
-endforeach()
+    endif ()
+endforeach ()
 
 # Custom target to build all subprojects
 add_custom_target(build_all)
