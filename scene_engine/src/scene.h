@@ -39,7 +39,7 @@
  * All other functions (such as initFunc and updateFunc in this example)
  * do not need to be exposed in the header file,
  * and thus can be static functions in the C file.
- * 
+ *
  * @par Registering a scene:
  * A scene must be registered to the system before it's usable.
  * Simply call the definition-returning function defined like above
@@ -172,7 +172,7 @@ void pdScene_Register(void *scene);
  * @param[in] count Item count of @c scene.
  * @warning If you get @c count wrong or you don't pass @c Scene* to @c scene, you will encounter an undefined behavior.
  */
-void pdScene_RegisterBulk(void** scene, size_t count);
+void pdScene_RegisterBulk(void **scene, size_t count);
 
 /**
  * @brief Load a scene while passing a data.

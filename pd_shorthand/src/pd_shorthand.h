@@ -28,31 +28,6 @@
 #define LCD_HEIGHT (LCD_ROWS)
 
 /**
- * @brief Shorthand for @c playdate->system->logToConsole.
- *
- * This API can format the log.
- *
- * @param[in] fmt Format string
- * @param[in] ... Format variables
- */
-#define pd_LogF(fmt, ...) pd_getPd()->system->logToConsole(fmt, __VA_ARGS__)
-
-/**
- * @brief Shorthand for @c playdate->system->error.
- *
- * This API can format the error.
- *
- * @param[in] fmt Format string
- * @param[in] ... Format variables
- * @warning Using this function @b will @b crash the game -
- *          on simulator, the execution is paused,
- *          and it will crash a real Playdate with e1 error
- *          with the error message (revealed by pressing B)
- *          being the formatted message.
- */
-#define pd_ErrorF(fmt, ...) pd_getPd()->system->error(fmt, __VA_ARGS__)
-
-/**
  * Use this union to perform alignment-safe type punning
  * between void* and PlaydateAPI*.
  *
@@ -156,7 +131,17 @@ void pd_Free(void *ptr);
  * @param[in] msg Log message
  * @sa pd_LogF
  */
-void pd_Log(const char* msg);
+void pd_Log(const char *msg);
+
+/**
+ * @brief Shorthand for @c playdate->system->logToConsole.
+ *
+ * This API can format the log.
+ *
+ * @param[in] fmt Format string
+ * @param[in] ... Format variables
+ */
+void pd_LogF(const char *fmt, ...);
 
 /**
  * @brief Equivalent of @c playdate->system->error
@@ -170,9 +155,22 @@ void pd_Log(const char* msg);
  *          being @c msg .
  * @sa pd_ErrorF
  */
-void pd_Error(const char* msg);
+void pd_Error(const char *msg);
 
-
+/**
+ * @brief Shorthand for @c playdate->system->error.
+ *
+ * This API can format the error.
+ *
+ * @param[in] fmt Format string
+ * @param[in] ... Format variables
+ * @warning Using this function @b will @b crash the game -
+ *          on simulator, the execution is paused,
+ *          and it will crash a real Playdate with e1 error
+ *          with the error message (revealed by pressing B)
+ *          being the formatted message.
+ */
+void pd_ErrorF(const char *fmt, ...);
 
 /**
  * @defgroup Private APIs
@@ -186,6 +184,6 @@ void pd_Error(const char* msg);
  *
  * @see PDContextLoader
  */
-PlaydateAPI* pd_getPd(void);
+PlaydateAPI *pd_getPd(void);
 
 #endif /* PD_SHORTHAND_H */
