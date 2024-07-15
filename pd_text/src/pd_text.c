@@ -84,8 +84,8 @@ uint32_t pdText_GetWrappedText(
     int line_count = 0;
     uint32_t str_offset = 0;
     int32_t split_point_index = 0;
-    while (line_count < max_lines && split_point_index < split_count) {
-        while (true) {
+    while (line_count < max_lines) {
+        while (split_point_index < split_count) {
             /* Expand this line until we go over the maximum width allowed */
             uint32_t split_point = split_points[split_point_index];
             memcpy(buf, out + str_offset, (split_point - str_offset) + 1);
@@ -100,6 +100,8 @@ uint32_t pdText_GetWrappedText(
             if (text_width > max_width) break;
             split_point_index++;
         }
+        /* If we go over the splittable locations, then we don't need to do anything further. */
+        if (split_point_index >= split_count) break;
         /* If the very first word is super long, perform a wrap at first space character. */
         uint32_t split_point = split_points[max(0, split_point_index - 1)];
         out[split_point] = '\n';
