@@ -84,7 +84,7 @@ uint32_t pdText_GetWrappedText(
     int line_count = 0;
     uint32_t str_offset = 0;
     int32_t split_point_index = 0;
-    while (line_count < max_lines) {
+    while (line_count < max_lines - 1) {
         while (split_point_index < space_count) {
             /* Expand this line until we go over the maximum width allowed */
             uint32_t split_point = split_points[split_point_index];
@@ -114,7 +114,7 @@ uint32_t pdText_GetWrappedText(
     s_pd->system->realloc(buf, 0);
     s_pd->system->realloc(split_points, 0);
 
-    return line_count;
+    return line_count + 1;
 }
 
 void pdText_DisplayString(PDStringEncoding encoding, int32_t x, int32_t y, const char *fmt, ...) {
