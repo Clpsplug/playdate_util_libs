@@ -107,6 +107,7 @@ uint32_t pdText_GetWrappedText(
         /* User must free this memory */
         char *out_buf = s_pd->system->realloc(NULL, sizeof(char) * (strlen(buf) + 1));
         strcpy(buf, out_buf);
+        strcat(out_buf, "\n"); /* Convert to newlines */
         out_str[line_index] = out_buf;
         str_offset += strlen(buf);
         line_index++;
