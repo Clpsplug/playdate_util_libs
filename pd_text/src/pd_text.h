@@ -56,9 +56,9 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
  * Since @c playdate->graphics->drawText draws text even if it's off the screen,
  * using this function will avoid unwanted cut-off texts.
  *
- * @param[in]  font      @c Font object.
  * @param[out] out_str   Array of string where the wrapped texts' pointers will be written to.
  *                       MUST be the same size as @c max_lines.
+ * @param[in]  font      @c Font object.
  * @param[in]  max_lines Number of times to wrap at most.
  *                       If the input text is so large that it needs more wraps than this value,
  *                       the function will attempt to wrap the text up to this number of times
@@ -67,13 +67,22 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
  * @param[in]  encoding  PDStringEncoding value.
  * @param[in]  fmt       String format (as in printf)
  * @param[in]  ...       Variadic arguments, used to format @c fmt .
- * @returns Number of valid lines returned from this function. Is always less than or equal to @c max_lines .
+ * @returns Number of valid lines returned from this function.
+ *          Is always less than or equal to @c max_lines .
  * @warning This function is potentially computationally costly.
  *          Use it wherever there's a lot of CPU time to spare,
  *          or a performance hit itself is acceptable (such as when loading).
  *          This function allocates some heap memory internally.
  */
-uint32_t pdText_GetWrappedText(const Font* font, const char **out_str, uint32_t max_lines, uint16_t max_width, PDStringEncoding encoding, const char *fmt, ...);
+uint32_t pdText_GetWrappedText(
+    char **out_str,
+    const Font *font,
+    uint32_t max_lines,
+    uint16_t max_width,
+    PDStringEncoding encoding,
+    const char *fmt,
+    ...
+);
 
 /**
  * @brief Shorthand for @c playdate->graphics->drawText .

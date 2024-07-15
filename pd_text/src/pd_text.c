@@ -28,15 +28,22 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
     return true;
 }
 
-uint32_t pdText_GetWrappedText(const Font *font, const char **out_str, uint32_t max_lines, uint16_t max_width,
-                               PDStringEncoding encoding, const char *fmt, ...) {
+uint32_t pdText_GetWrappedText(
+    char **out_str,
+    const Font *font,
+    uint32_t max_lines,
+    uint16_t max_width,
+    PDStringEncoding encoding,
+    const char *fmt,
+    ...
+) {
     if (out_str == NULL) {
-        s_pd->system->error("Invalid pointer to buffer has been passed.");
+        s_pd->system->error("PDText Error: Invalid pointer to buffer has been passed.");
         return 0;
     }
 
     if (max_lines == 0) {
-        s_pd->system->error("Invalid number of lines has been passed.");
+        s_pd->system->error("PDText Error: Invalid number of lines has been passed.");
         return 0;
     }
 
@@ -48,7 +55,8 @@ uint32_t pdText_GetWrappedText(const Font *font, const char **out_str, uint32_t 
     /* If max_lines == 1, then there's no way we can wrap this text. */
     if (max_lines == 1) {
         s_pd->system->logToConsole(
-                "Warning: tried to generate wrapped text but only one line of text is allowed by parameter.");
+            "PDText Warning: tried to generate wrapped text but only one line of text is allowed by parameter."
+        );
         out_str[0] = out;
         return 1;
     }
@@ -84,11 +92,11 @@ uint32_t pdText_GetWrappedText(const Font *font, const char **out_str, uint32_t 
             memcpy(buf, out + str_offset, split_points[split_point_index] - str_offset);
             buf[(int) (split_points[split_point_index] - str_offset)] = '\0';
             text_width = s_pd->graphics->getTextWidth(
-                    font->font,
-                    buf,
-                    split_points[split_point_index] - str_offset,
-                    encoding,
-                    s_pd->graphics->getTextTracking()
+                font->font,
+                buf,
+                split_points[split_point_index] - str_offset,
+                encoding,
+                s_pd->graphics->getTextTracking()
             );
             split_point_index++;
             if (text_width > max_width) break;
@@ -105,9 +113,8 @@ uint32_t pdText_GetWrappedText(const Font *font, const char **out_str, uint32_t 
     }
 
     /* If at this point there's any text left to be wrapped, shove all of them at the last element */
-    if (str_offset != strlen(out))
-    {
-        char *out_buf = s_pd->system->realloc(NULL, sizeof (char) * (strlen(out) - str_offset));
+    if (str_offset != strlen(out)) {
+        char *out_buf = s_pd->system->realloc(NULL, sizeof(char) * (strlen(out) - str_offset));
         strcpy(out + str_offset, out_buf);
         out_str[max_lines - 1] = out_buf;
     }
