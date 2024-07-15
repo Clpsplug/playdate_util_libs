@@ -51,6 +51,51 @@ and also stores the height of the font for later use.
 
 `true`(1) on success, `false`(0) on failure (`true`/`false` as in `stdbool.h`)
 
+### pdText_GetWrappedText
+
+```c
+uint32_t pdText_GetWrappedText(
+  char **out_str,
+  const Font *font,
+  uint32_t max_lines,
+  uint16_t max_width,
+  PDStringEncoding encoding,
+  const char *fmt,
+...
+);
+```
+
+Formats a string then writes the 'wrap-around' text into the buffer.
+
+Since `PlaydateAPI::Graphics::drawText` draws text even if it's off the screen,
+using this function will avoid unwanted cut-off texts.
+
+This function will only split at spaces (` `, character `0x20`).
+
+#### Parameters
+* [out] `out_str`   Out buffer, can be supplied from outside. 
+                    If NULL, this function will perform a memory allocation,
+                    in which case the user is responsible for freeing it.
+* [in]  `font       `Font` object.
+* [in]  `max_lines` Number of times to wrap at most.  
+                    If the input text is so large that it needs more wraps than this value,
+                    the function will attempt to wrap the text up to this number of times
+                    while the rest of the text will be left untouched.
+* [in]  `max_width` Maximum allowed width of the text.
+* [in]  `encoding`  PDStringEncoding value.
+* [in]  `fmt`       String format (as in printf)
+* [in]  `...`       Variadic arguments, used to format @c fmt .
+
+#### Returns
+Number of valid lines returned from this function. Is always less than or equal to `max_lines`.
+
+> [!WARNING]
+> 
+> This function is potentially computationally costly.
+> Use it wherever there's a lot of CPU time to spare,
+> or a performance hit itself is acceptable (such as when loading).  
+> This function allocates some heap memory internally.
+
 ### pdText_DisplayString
 
 ```c

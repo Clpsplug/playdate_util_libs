@@ -56,6 +56,8 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
  * Since @c playdate->graphics->drawText draws text even if it's off the screen,
  * using this function will avoid unwanted cut-off texts.
  *
+ * This function will only split at spaces (' ', character 0x20).
+ *
  * @param[out] out_str   Out buffer, can be supplied from outside.
  *                       If NULL, this function will perform a memory allocation,
  *                       in which case the user is responsible for freeing it.
@@ -70,6 +72,7 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
  * @param[in]  ...       Variadic arguments, used to format @c fmt .
  * @returns Number of valid lines returned from this function.
  *          Is always less than or equal to @c max_lines .
+ *
  * @warning This function is potentially computationally costly.
  *          Use it wherever there's a lot of CPU time to spare,
  *          or a performance hit itself is acceptable (such as when loading).

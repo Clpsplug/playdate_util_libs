@@ -3,6 +3,7 @@
 ## What's included
 
 * [Shorthand library](pd_shorthand/README.md)
+* [Text library](pd_text/README.md)
 * [Scene engine](scene_engine/README.md)
 
 ## How to build / use
