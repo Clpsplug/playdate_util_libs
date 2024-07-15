@@ -4,16 +4,24 @@ set -e
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+DEBUG_MODE=0
+if [ $1 == "-d" ]; then
+    DEBUG_MODE=1
+fi
+
 function build_and_install()
 {
   echo "-- Building for $2 --"
   pushd "${SCRIPT_DIR:?}/$1" > /dev/null || ( echo "pushd to ${SCRIPT_DIR:?}/$1 failed"; exit 1 )
+    if [ $DEBUG_MODE -eq 1 ]; then
+      DEBUG_FLAG="-DCMAKE_BUILD_TYPE=Debug"
+    fi
     case "$2" in
       "device")
-      cmake .. -DCMAKE_TOOLCHAIN_FILE="$PLAYDATE_SDK_PATH/C_API/buildsupport/arm.cmake"
+      cmake .. "${DEBUG_FLAG:-}" -DCMAKE_TOOLCHAIN_FILE="$PLAYDATE_SDK_PATH/C_API/buildsupport/arm.cmake"
       ;;
       "sim")
-      cmake ..
+      cmake .. "${DEBUG_FLAG:-}"
       ;;
       *)
         echo "Unknown build target $2";
