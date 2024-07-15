@@ -56,8 +56,9 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
  * Since @c playdate->graphics->drawText draws text even if it's off the screen,
  * using this function will avoid unwanted cut-off texts.
  *
- * @param[out] out_str   Array of string where the wrapped texts' pointers will be written to.
- *                       MUST be the same size as @c max_lines.
+ * @param[out] out_str   Out buffer, can be supplied from outside.
+ *                       If NULL, this function will perform a memory allocation,
+ *                       in which case the user is responsible for freeing it.
  * @param[in]  font      @c Font object.
  * @param[in]  max_lines Number of times to wrap at most.
  *                       If the input text is so large that it needs more wraps than this value,

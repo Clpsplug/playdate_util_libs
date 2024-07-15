@@ -2,6 +2,12 @@
 
 #include <pd_api.h>
 #include <string.h>
+#include <math.h>
+
+#define max(a, b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a > _b ? _a : _b; })
 
 typedef union PDContextLoaderTag {
     void *raw_ptr;
@@ -37,11 +43,6 @@ uint32_t pdText_GetWrappedText(
     const char *fmt,
     ...
 ) {
-    if (out_str == NULL) {
-        s_pd->system->error("PDText Error: Invalid pointer to buffer has been passed.");
-        return 0;
-    }
-
     if (max_lines == 0) {
         s_pd->system->error("PDText Error: Invalid number of lines has been passed.");
         return 0;
@@ -52,18 +53,29 @@ uint32_t pdText_GetWrappedText(
     char *out;
     size_t len = s_pd->system->vaFormatString(&out, fmt, v_list);
 
+    if (out_str == NULL) {
+        /* If out_str is not supplied, allocate out_str. The user is responsible for freeing this. */
+        out_str = s_pd->system->realloc(NULL, sizeof(char **));
+        if (out_str == NULL) {
+            s_pd->system->error(
+                "PDText Error: Memory allocation failure for generating wrapped text."
+            );
+            return 0;
+        }
+    }
+
     /* If max_lines == 1, then there's no way we can wrap this text. */
     if (max_lines == 1) {
         s_pd->system->logToConsole(
             "PDText Warning: tried to generate wrapped text but only one line of text is allowed by parameter."
         );
-        out_str[0] = out;
+        *out_str = out;
         return 1;
     }
 
     /* If there are no space characters, we cannot wrap this text. */
     if (strchr(out, ' ') == NULL) {
-        out_str[0] = out;
+        *out_str = out;
         return 1;
     }
 
@@ -74,56 +86,48 @@ uint32_t pdText_GetWrappedText(
     }
 
     uint32_t *split_points = s_pd->system->realloc(NULL, sizeof(uint32_t) * space_count);
-    uint32_t count = 0;
+    uint32_t split_count = 0;
     for (int i = 0; i < len; ++i) {
         if (out[i] == ' ') {
-            split_points[count] = i;
-            count++;
+            split_points[split_count] = i;
+            split_count++;
         }
     }
 
     char *buf = s_pd->system->realloc(NULL, sizeof(char) * len);
-    int line_index = 0;
+    int line_count = 0;
     uint32_t str_offset = 0;
-    uint32_t split_point_index = 0;
-    while (line_index < max_lines - 1) {
-        uint32_t text_width = 0;
+    int32_t split_point_index = 0;
+    while (line_count < max_lines && split_point_index < split_count) {
         while (split_point_index < space_count) {
-            memcpy(buf, out + str_offset, split_points[split_point_index] - str_offset);
-            buf[(int) (split_points[split_point_index] - str_offset)] = '\0';
-            text_width = s_pd->graphics->getTextWidth(
+            /* Expand this line until we go over the maximum width allowed */
+            uint32_t split_point = split_points[split_point_index];
+            memcpy(buf, out + str_offset, (split_point - str_offset) + 1);
+            buf[(int) (split_point - str_offset)] = '\0';
+            uint32_t text_width = s_pd->graphics->getTextWidth(
                 font->font,
                 buf,
-                split_points[split_point_index] - str_offset,
+                strlen(buf),
                 encoding,
                 s_pd->graphics->getTextTracking()
             );
             split_point_index++;
             if (text_width > max_width) break;
         }
-
-        if (text_width == 0) break;
-
-        /* User must free this memory */
-        char *out_buf = s_pd->system->realloc(NULL, sizeof(char) * (strlen(buf) + 1));
-        strcpy(buf, out_buf);
-        strcat(out_buf, "\n"); /* Convert to newlines */
-        out_str[line_index] = out_buf;
-        str_offset += strlen(buf);
-        line_index++;
+        uint32_t split_point = split_points[split_point_index - 1];
+        /* Overwrite the character at split_points[split_point_index] at this point */
+        out[split_point] = '\n';
+        /* The new string offset will be the split point + 1 */
+        str_offset = split_point + 1;
+        line_count++;
     }
 
-    /* If at this point there's any text left to be wrapped, shove all of them at the last element */
-    if (str_offset != strlen(out)) {
-        char *out_buf = s_pd->system->realloc(NULL, sizeof(char) * (strlen(out) - str_offset));
-        strcpy(out + str_offset, out_buf);
-        out_str[max_lines - 1] = out_buf;
-    }
+    *out_str = out;
 
     s_pd->system->realloc(buf, 0);
     s_pd->system->realloc(split_points, 0);
 
-    return line_index;
+    return line_count;
 }
 
 void pdText_DisplayString(PDStringEncoding encoding, int32_t x, int32_t y, const char *fmt, ...) {
