@@ -40,6 +40,10 @@ uint32_t pdText_GetWrappedText(
     const char *fmt,
     ...
 ) {
+    if (font == NULL) {
+        s_pd->system->error("PDText Error: NULL font passed.");
+        return 0;
+    }
     if (max_lines == 0) {
         s_pd->system->error("PDText Error: Invalid number of lines has been passed.");
         return 0;
@@ -84,6 +88,7 @@ uint32_t pdText_GetWrappedText(
     int line_count = 0;
     uint32_t str_offset = 0;
     int32_t split_point_index = 0;
+    int text_tracking = s_pd->graphics->getTextTracking();
     while (line_count < max_lines) {
         while (split_point_index < split_count) {
             /* Expand this line until we go over the maximum width allowed */
@@ -91,11 +96,7 @@ uint32_t pdText_GetWrappedText(
             memcpy(buf, out + str_offset, (split_point - str_offset) + 1);
             buf[(int) (split_point - str_offset)] = '\0';
             uint32_t text_width = s_pd->graphics->getTextWidth(
-                font->font,
-                buf,
-                strlen(buf),
-                encoding,
-                s_pd->graphics->getTextTracking()
+                font->font, buf, strlen(buf), encoding, text_tracking
             );
             if (text_width > max_width) break;
             split_point_index++;

@@ -15,13 +15,7 @@
  *
  * Reference this if there is no scene loaded.
  */
-static Scene invalid_scene = {
-    INVALID_SCENE_ID,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-};
+static Scene invalid_scene = {INVALID_SCENE_ID, NULL, NULL, NULL, NULL};
 
 /**
  * @brief Scene registration struct
@@ -68,7 +62,8 @@ void pdScene_Register(void *rawScene) {
     if (s_registrations.capacity == 0) {
         /* NOTE: This error message wouldn't be shown if the user forgets to initialize us, because s_pd is NULL */
         s_pd->system->error(
-            "Registration capacity is set to 0 - did you initialize this library or accidentally finalize it?");
+            "Registration capacity is set to 0 - did you initialize this library or accidentally finalize it?"
+        );
         return;
     }
 
@@ -85,7 +80,8 @@ void pdScene_Register(void *rawScene) {
             /* Honestly, if you trigger this, you REALLY need to consider how to manager RAM usage... */
             s_pd->system->error(
                 "Allocation failure during scene registration... (tried to register ID %d, registration capacity %d)",
-                scene->sceneIdentifier, s_registrations.capacity
+                scene->sceneIdentifier,
+                s_registrations.capacity
             );
             return;
         }
