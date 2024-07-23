@@ -31,6 +31,7 @@ if (TOOLCHAIN STREQUAL "armgcc")
     # other stuff...
     target_include_directories(MyPlaydateGame PRIVATE ${UTIL_LIBS_PATH}/include)
     target_link_directories(MyPlaydateGame PRIVATE ${UTIL_LIBS_PATH}/lib)
+    # List names of library required.
     target_link_libraries(MyPlaydateGame pd_shorthand scene_engine)
     # more stuff...
 else ()

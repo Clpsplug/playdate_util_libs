@@ -13,6 +13,7 @@ set(CMAKE_INSTALL_PREFIX ${ROOT_DIR} CACHE PATH "Installation dir" FORCE)
 set(SUBPROJECTS
         pd_shorthand
         pd_text
+        pd_image_utils
         scene_engine
 )
 
