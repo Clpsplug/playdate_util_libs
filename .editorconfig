@@ -7,7 +7,7 @@ insert_final_newline = true
 
 [{*.c,*.h}]
 indent_size = 4
-max_line_length = 120
+max_line_length = 80
 ij_c_add_brief_tag = false
 ij_c_add_getter_prefix = true
 ij_c_add_setter_prefix = true

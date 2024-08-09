@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
-set -e
+set -eu
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 DEBUG_MODE=0
 if [ "$1" == "-d" ]; then
     DEBUG_MODE=1
+fi
+
+if [ ! -d "$PLAYDATE_SDK_PATH" ]; then
+    echo "[FATAL] You are missing PLAYDATE_SDK_PATH environment variable."
+    echo "        Check if you have Playdate SDK installed, and the environment variable is set properly."
+    exit 1
 fi
 
 function build_and_install()

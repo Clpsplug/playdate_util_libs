@@ -1,3 +1,6 @@
+/**
+ * @brief Playdate text manipulation module
+ */
 #ifndef PD_TEXT_SHORTHAND_H
 #define PD_TEXT_SHORTHAND_H
 
