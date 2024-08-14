@@ -5,8 +5,9 @@ set -eu
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 DEBUG_MODE=0
-if [ "$1" == "-d" ]; then
+if [ "${1:-}" == "-d" ]; then
     DEBUG_MODE=1
+    echo "[INFO] Debug mode!"
 fi
 
 if [ ! -d "$PLAYDATE_SDK_PATH" ]; then
