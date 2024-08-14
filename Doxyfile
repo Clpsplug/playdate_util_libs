@@ -1,0 +1,47 @@
+# Doxygen configuration file
+
+# General configuration
+PROJECT_NAME           = "Playdate Utility Library"
+OUTPUT_DIRECTORY       = "docs"
+CREATE_SUBDIRS         = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+RECURSIVE              = YES
+INPUT                  = .
+FILE_PATTERNS          = *.h README.md DOC_MAINPAGE.md
+# By using $(PWD), we can prevent README.md at root to be included in the doc.
+EXCLUDE_PATTERNS       = */test/* */tests/* */src/* */lib/* $(PWD)/README.md
+
+# Documentation options
+EXTRACT_ALL            = NO
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+ALIASES += "license=@par License:"
+SORT_MEMBER_DOCS = NO
+
+# Markdown support
+USE_MDFILE_AS_MAINPAGE = DOC_MAINPAGE.md
+MARKDOWN_SUPPORT       = YES
+
+# HTML output configuration
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_MAN           = NO
+GENERATE_RTF           = NO
+GENERATE_XML           = NO
+GENERATE_DOCBOOK       = NO
+
+# Source browser settings
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+STRIP_CODE_COMMENTS    = NO
+
+# Sort options
+SORT_BRIEF_DOCS        = YES
+SORT_BY_SCOPE_NAME     = YES
+SORT_MEMBERS_CTORS_1ST = YES
+SORT_GROUP_NAMES       = YES
+
+# Additional settings
+GENERATE_TREEVIEW      = YES
+
