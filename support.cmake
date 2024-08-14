@@ -1,6 +1,7 @@
 # This file defines PD_UTILS_LIBS,
 # which has references to all the libraries included in this package.
 set(PD_UTILS_LIBS
+        support
         pd_shorthand
         pd_scene_engine
         pd_text
