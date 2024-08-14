@@ -25,7 +25,7 @@
  *
  * @param[in] playdate_context Playdate context object.
  */
-inline void pdUtil_InitializeAll(void* playdate_context);
+void pdUtil_InitializeAll(void* playdate_context);
 
 /**
  * @brief Finalizes all the modules in this library.
@@ -36,6 +36,6 @@ inline void pdUtil_InitializeAll(void* playdate_context);
  *          the behavior of this function is undefined
  *          (most likely leads to a crash).
  */
-inline void pdUtil_FinalizeAll(void);
+void pdUtil_FinalizeAll(void);
 
 #endif
