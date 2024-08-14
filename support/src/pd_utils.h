@@ -18,7 +18,7 @@
 #include <pd_api.h>
 #include <pd_shorthand.h>
 #include <pd_text.h>
-#include <scene.h>
+#include <pd_scene.h>
 
 /**
  * @brief Initializes all the modules in this library.

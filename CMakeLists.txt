@@ -14,7 +14,7 @@ set(SUBPROJECTS
         support
         pd_shorthand
         pd_text
-        scene_engine
+        pd_scene_engine
 )
 
 # Loop through each subproject and add subdirectory

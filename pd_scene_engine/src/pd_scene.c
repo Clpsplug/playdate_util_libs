@@ -1,4 +1,4 @@
-#include "scene.h"
+#include "pd_scene.h"
 
 #include <pd_api.h>
 #include <pd_shorthand.h>

@@ -1,5 +1,5 @@
 /**
- * @file scene.h
+ * @file pd_scene.h
  *
  * @brief Playdate simple scene switcher engine
  *

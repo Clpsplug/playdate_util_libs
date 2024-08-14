@@ -19,10 +19,10 @@ If there is no reason to assign functions, assigning `NULL` will be enough.
 
 ## Defining a scene
 
-Include `scene.h` header file in the implementation (i.e., C file) to define a scene,
+Include `pd_scene.h` header file in the implementation (i.e., C file) to define a scene,
 
 ```c
-#include <scene.h>
+#include <pd_scene.h>
 
 static Scene scene_definition = {
   .sceneIdentifier = EXAMPLE_SCREEN, // Pretend this is a #define'd macro
@@ -109,7 +109,7 @@ In summary, your `main.c` (the entrypoint code) would look something like this:
 #include <pd_api.h>
 #include <stdint.h>
 
-#include <scene.h>
+#include <pd_scene.h>
 #include "scene_ids.h" /* Your Scene Identifier macro declarations */
 #include "example/example.h" /* An example scene header, has `void* get_example_scene(void)` */
 

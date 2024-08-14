@@ -14,6 +14,6 @@ set(SOURCES
 set(DEPENDENCIES
         pd_shorthand
         pd_text
-        scene_engine
+        pd_scene_engine
 )
 include(${CMAKE_SOURCE_DIR}/cmake_support/CompilationConf.cmake)
