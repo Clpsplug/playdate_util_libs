@@ -1,4 +1,6 @@
 /**
+ * @file pd_scene.h
+ *
  * @brief Playdate simple scene switcher engine
  *
  * Manages the game state as 'scenes',
@@ -6,11 +8,11 @@
  *
  * @par Scene:
  * A scene is defined with the Scene struct and has the following five elements:
- * @li @c sceneIdentifier An integer that is unique throughout the whole game, used to refer to a scene
- * @li @c initFunction A special function that receives Playdate API context object, which you should save during that function
- * @li @c updateFunction A function that is called every display update cycle
- * @li @c eventFunction A function that handles Playdate system events besides kEventInit and kEventTerminate
- * @li @c unloadFunction A function that handles unloading the scene (freeing stuff).
+ * @li Scene::sceneIdentifier An integer that is unique throughout the whole game, used to refer to a scene
+ * @li Scene::initFunction A special function that receives Playdate API context object, which you should save during that function
+ * @li Scene::updateFunction A function that is called every display update cycle
+ * @li Scene::eventFunction A function that handles Playdate system events besides kEventInit and kEventTerminate
+ * @li Scene::unloadFunction A function that handles unloading the scene (freeing stuff).
  *
  * Only the identifier is required; not all function pointers must be filled.
  * If there is no reason to assign functions, just assign NULL.
@@ -36,7 +38,7 @@
  *   return &scene_definition;
  * }
  * @endcode
- * All other functions (such as initFunc and updateFunc in this example)
+ * All other functions (such as @c initFunc and @c updateFunc in this example)
  * do not need to be exposed in the header file,
  * and thus can be static functions in the C file.
  *
@@ -50,10 +52,10 @@
  * @endcode
  *
  * @par Loading a scene:
- * To load (start) a scene, call pdScene_Load with the identifier you've specified
+ * To load (start) a scene, call pdScene_Load(SceneIdentifier, const void*) with the identifier you've specified
  * in the definition.
  * If you supply a pointer to the second argument,
- * it will be available in the initFunction of the corresponding scene.
+ * it will be available in the Scene::initFunction of the corresponding scene.
  * @code
  * pdScene_Load(EXAMPLE_SCREEN, NULL);
  * @endcode
@@ -111,7 +113,7 @@ typedef int32_t(*SceneUpdateFunction)(void);
 /**
  * @brief Signature for the event handler function.
  *
- * This is called whenever eventHandler fires,
+ * This is to be called whenever eventHandler fires,
  * except when the event is kEventInit and kEventTerminate.
  *
  * @param[in] eventType PDSystemEvent value, except for kEventInit and kEventTerminate.
@@ -121,31 +123,31 @@ typedef int32_t(*SceneUpdateFunction)(void);
 typedef int32_t(*SceneEventFunction)(uint32_t eventType, uint32_t arg);
 
 /**
- * Scene definition struct
+ * @brief Scene definition struct
  */
 typedef struct SceneTag {
     /**
-     * An integer value to identify this scene.
-     * @remarks UINT32_MAX is reserved for 'invalid scene'; registering a scene with such will cause an e1 crash.
-     *          It is recommended that you #define the value.
+     * @brief An integer value to identify this scene.
+     * @warning UINT32_MAX is reserved for 'invalid scene'; registering a scene with such will cause an e1 crash.
+     * @remarks It is recommended that you #define the value.
      */
     const SceneIdentifier sceneIdentifier;
     /**
-     * Function to be called when the scene is initialized. Can be null.
+     * @brief Function to be called when the scene is initialized. Can be null.
      */
     const SceneInitFunction initFunction;
     /**
-     * Function to be called when the scene is unloaded. Can be null.
+     * @brief Function to be called when the scene is unloaded. Can be null.
      */
     const SceneUnloadFunction unloadFunction;
     /**
-     * Function to be called when an update cycle is triggered. Can be null.
+     * @brief Function to be called when an update cycle is triggered. Can be null.
      */
     const SceneUpdateFunction updateFunction;
     /**
-     * Function to be called when an event handler triggers. Can be null.
+     * @brief Function to be called when an event handler triggers. Can be null.
      *
-     * @attention kEventInit and kEventTerminate are not handled here.
+     * @attention kEventInit and kEventTerminate are not meant to be handled here.
      */
     const SceneEventFunction eventFunction;
 } Scene;
@@ -184,11 +186,11 @@ void pdScene_RegisterBulk(void **scene, size_t count);
 /**
  * @brief Load a scene while passing a data.
  *
- * The scene MUST be registered using pdScene_Register beforehand.
+ * The scene MUST be registered using pdScene_Register(void*) beforehand.
  * If there is a scene loaded and it has an unloading function assigned,
  * it will be called before loading up the next scene.
  *
- * @param[in] sceneIdentifier identifier assigned to Scene registered using pdScene_Register.
+ * @param[in] sceneIdentifier identifier assigned to Scene registered using pdScene_Register(void*).
  * @param[in] data            data to pass to the scene.
  * @warning If the scene with sceneIdentifier isn't registered, this will trigger an e1 crash.
  * @see pdScene_Register
@@ -209,7 +211,7 @@ void pdScene_Unload(void);
  * @brief Calls the update function of the scene.
  *
  * Call this API within a function that you specify using
- * playdate->system->setUpdateCallback.
+ * @c playdate->system->setUpdateCallback.
  *
  * @remarks Playdate API context object will not be available here.
  *          To reference it, you must have assigned it to a static variable
@@ -220,18 +222,18 @@ int32_t pdScene_Update(void);
 /**
  * @brief Calls the event handler function of the scene.
  *
- * Call this API from the default branch of the PDSystemEvent switch-case
- * without the PlaydateAPI* variable (which should be assigned in the initialization function).
+ * Call this API from the default branch of the @c PDSystemEvent switch-case
+ * @b without the @c PlaydateAPI* variable (which should have been assigned at the initialization function).
  *
- * @param[in] eventType PDSystemEvent value.
- * @param[in] arg       arg value (the third uint32_t argument of the eventHandler).
+ * @param[in] eventType @c PDSystemEvent value.
+ * @param[in] arg       arg value (the third @c uint32_t argument of the @c eventHandler).
  */
 int32_t pdScene_EventHandler(uint32_t eventType, uint32_t arg);
 
 /**
  * @brief Finalizes the scene switcher engine.
  *
- * @warning After calling this API, all other APIs (except for pdScene_Initialize)
+ * @warning After calling this API, all other APIs (except for pdScene_Initialize(void*))
  *          will be unavailable, and will cause undefined behaviors if they are called.
  */
 void pdScene_Finalize(void);

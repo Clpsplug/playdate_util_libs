@@ -11,10 +11,10 @@ set(CMAKE_INSTALL_PREFIX ${ROOT_DIR} CACHE PATH "Installation dir" FORCE)
 
 # List of subprojects
 set(SUBPROJECTS
+        support
         pd_shorthand
         pd_text
-        pd_image_utils
-        scene_engine
+        pd_scene_engine
 )
 
 # Loop through each subproject and add subdirectory

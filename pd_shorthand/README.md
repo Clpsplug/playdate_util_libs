@@ -90,7 +90,6 @@ Same as `PlaydateAPI::system::realloc`, but exists for completeness's sake.
 Pointer to the re-allocated memory, or NULL if allocation fails.
 
 > [!WARNING]
->
 > It is **NOT** guaranteed that this API returns the same pointer as `ptr`.
 > If the new allocation is impossible at the given pointer,
 > the system will assign a new location in RAM and return that as the pointer.
@@ -134,9 +133,10 @@ API that replicates free(3).
 
 * [in] `ptr` Pointer to free.
 
-> [!NOTE]
->
-> If you define `PD_SHORTHAND_DEBUG`, you can unlock an experimental feature
+## Other features
+
+> [!NOTE]  
+> If you define `PD_SHORTHAND_DEBUG` when installing the library, you can unlock an experimental feature
 > where this library reports possible memory leaks upon finalization.
 
 
