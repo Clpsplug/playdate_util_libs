@@ -29,13 +29,15 @@ Add the following lines to your `CMakeLists.txt`, or adjust them if you already 
 ```cmake
 # Having this repo as a submodule might help.
 set(UTIL_LIBS_PATH /path/to/playdate_util_libs)
+# Then include this cmake file to bulk-link the library.
+include(support.cmake)
 if (TOOLCHAIN STREQUAL "armgcc")
     # Playdate build
     add_executable(MyPlaydateGame main.c) # you may have more than main.c
     # other stuff...
     target_include_directories(MyPlaydateGame PRIVATE ${UTIL_LIBS_PATH}/include)
     target_link_directories(MyPlaydateGame PRIVATE ${UTIL_LIBS_PATH}/lib)
-    target_link_libraries(MyPlaydateGame pd_shorthand pd_scene_engine)
+    target_link_libraries(MyPlaydateGame ${PD_UTILS_LIBS})
     # more stuff...
 else ()
     # Simulator build
@@ -44,7 +46,7 @@ else ()
     target_include_directories(MyPlaydateSimGame PRIVATE ${UTIL_LIBS_PATH}/include)
     target_link_directories(MyPlaydateSimGame PRIVATE ${UTIL_LIBS_PATH}/lib)
     # Append "_Sim" for simulator build.
-    target_link_libraries(MyPlaydateSimGame pd_shorthand_Sim scene_engine_Sim)
+    target_link_libraries(MyPlaydateSimGame ${PD_UTILS_LIBS_SIM})
     # more stuff...
 endif ()
 ```
