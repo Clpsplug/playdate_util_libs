@@ -1,4 +1,6 @@
 /**
+ * @file pd_shorthand.h
+ *
  * @brief Playdate shorthand library
  *
  * Wrapper APIs for common Playdate operations
@@ -10,6 +12,7 @@
  * @author  Clpsplug \<clpsplug\@clpsplug.com>
  * @license MIT
  */
+
 #ifndef PD_SHORTHAND_H
 #define PD_SHORTHAND_H
 
@@ -18,20 +21,21 @@
 #include <pd_api.h>
 
 /**
+ * @def LCD_WIDTH
  * @brief Playdate screen width, per spec
  */
 #define LCD_WIDTH  (LCD_COLUMNS)
 
 /**
+ * @def LCD_HEIGHT
  * @brief Playdate screen height, per spec
  */
 #define LCD_HEIGHT (LCD_ROWS)
 
 /**
- * Use this union to perform alignment-safe type punning
- * between void* and PlaydateAPI*.
+ * @brief Use this union to perform alignment-safe type punning
+ * between @c void* and @c PlaydateAPI*.
  *
- * @example
  * @code
  * void function(void* playdateApi) {
  *     PDContextLoader loader = { playdateApi };
@@ -72,7 +76,7 @@ void pd_Initialize(void *pd);
 void pd_Finalize(void);
 
 /**
- * API that replicates malloc(3).
+ * @brief API that replicates @c malloc(3).
  *
  * @param[in] size Memory allocation size to request.
  * @returns Pointer to the allocated memory, or NULL if allocation fails.
@@ -80,12 +84,12 @@ void pd_Finalize(void);
 void *pd_Malloc(size_t size);
 
 /**
- * API that replicates realloc(3).
+ * @brief API that replicates @c realloc(3).
  *
  * @param[in] ptr  Pointer to the original memory location.
  * @param[in] size New requested size.
  * @returns Pointer to the re-allocated memory, or NULL if allocation fails.
- * @warning It is NOT guaranteed that this API returns the same pointer as ptr.
+ * @warning It is @b NOT guaranteed that this API returns the same pointer as @c ptr.
  *          If the new allocation is impossible at the given pointer,
  *          the system will assign a new location in RAM and return that as the pointer.
  *          If that fails, then this function will return NULL.
@@ -95,7 +99,6 @@ void *pd_Malloc(size_t size);
  *          Always check for NULL before assigning the new pointer.
  *          Also, be advised that overuse of this API may lead to RAM fragmentation.
  *
- * @example
  * @code
  * #include "pd_shorthand.h"
  *
@@ -118,7 +121,7 @@ void *pd_Malloc(size_t size);
 void *pd_Realloc(void *ptr, size_t size);
 
 /**
- * API that replicates free(3).
+ * @brief API that replicates @c free(3).
  *
  * @param[in] ptr Pointer to free.
  */
@@ -147,7 +150,7 @@ void pd_LogF(const char *fmt, ...);
  * @brief Equivalent of @c playdate->system->error
  * but without an ability to format.
  *
- * @paramn[in] msg Log message
+ * @param[in] msg Log message
  * @warning Using this function @b will @b crash the game -
  *          on simulator, the execution is paused,
  *          and it will crash a real Playdate with e1 error
@@ -171,19 +174,5 @@ void pd_Error(const char *msg);
  *          being the formatted message.
  */
 void pd_ErrorF(const char *fmt, ...);
-
-/**
- * @defgroup Private APIs
- *
- * These are not intended for regular use.
- */
-
-/** @brief Get PlaydateAPI in this module.
- *
- * Not recommended for outside use, use PDContextLoader instead.
- *
- * @see PDContextLoader
- */
-PlaydateAPI *pd_getPd(void);
 
 #endif /* PD_SHORTHAND_H */

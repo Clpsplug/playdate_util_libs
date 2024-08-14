@@ -1,3 +1,9 @@
+/**
+ * @file pd_text.h
+ *
+ * @brief Playdate text manipulation module
+ */
+
 #ifndef PD_TEXT_SHORTHAND_H
 #define PD_TEXT_SHORTHAND_H
 
@@ -7,11 +13,11 @@
 /**
  * @brief Font information.
  *
- * This struct provides additional info to LCDFont from Playdate API.
+ * This struct provides additional info to @c LCDFont from Playdate API.
  */
 typedef struct FontTag {
     /**
-     * @brief The Playdate's LCDFont struct.
+     * @brief The Playdate's @c LCDFont struct.
      *
      * Can be passed into @c playdate->graphics->setFont
      */
@@ -43,7 +49,7 @@ void pdText_Initialize(void *pd);
  * @param[in]  font_path     Path to the font.
  * @param[in]  height_margin This value will be added to the actual font height.
  *                           Useful when you want to ensure the glyphs don't collide.
- * @param[out] font          Specify the pointer to @c Font struct defined in this header.
+ * @param[out] font          Specify the pointer to #Font struct defined in this header.
  *                           This API will write information of loaded font there.
  * @param[out] err           Should an error occurs, this string will be populated.
  * @returns true(1) on success, false(0) on failure (true/false as in stdbool.h)
@@ -56,19 +62,19 @@ bool pdText_LoadFont(const char *font_path, uint8_t height_margin, Font *font, c
  * Since @c playdate->graphics->drawText draws text even if it's off the screen,
  * using this function will avoid unwanted cut-off texts.
  *
- * This function will only split at spaces (' ', character 0x20).
+ * @note This function will only split at spaces (' ', character 0x20).
  *
  * @param[out] out_str   Out buffer, can be supplied from outside.
  *                       If NULL, this function will perform a memory allocation,
  *                       in which case the user is responsible for freeing it.
- * @param[in]  font      @c Font object.
+ * @param[in]  font      #Font object.
  * @param[in]  max_lines Number of times to wrap at most.
  *                       If the input text is so large that it needs more wraps than this value,
  *                       the function will attempt to wrap the text up to this number of times
  *                       while the rest of the text will be left untouched.
  * @param[in]  max_width Maximum allowed width of the text.
- * @param[in]  encoding  PDStringEncoding value.
- * @param[in]  fmt       String format (as in printf)
+ * @param[in]  encoding  @c PDStringEncoding value.
+ * @param[in]  fmt       String format (as in @c printf)
  * @param[in]  ...       Variadic arguments, used to format @c fmt .
  * @returns Number of valid lines returned from this function.
  *          Is always less than or equal to @c max_lines .
@@ -97,19 +103,19 @@ uint32_t pdText_GetWrappedText(
  * and display the text at the given coordinates
  * while also making sure that the memory is properly freed.
  *
- * @param[in] encoding PDStringEncoding value.
+ * @param[in] encoding @c PDStringEncoding value.
  * @param[in] x        X-axis position.
  * @param[in] y        Y-axis position.
  * @param[in] fmt      Format string.
  * @param[in] ...      Variadic arguments, used to format @c fmt .
- *                     Works identically to sprintf.
+ *                     Works identically to @c sprintf.
  */
 void pdText_DisplayString(PDStringEncoding encoding, int32_t x, int32_t y, const char *fmt, ...);
 
 /**
  * @brief Shorthand for @c playdate->graphics->setFont and @c playdate->graphics->drawText .
  *
- * Same as @c pdText_DisplayString , but this will set the font before displaying the string.
+ * Same as pdText_DisplayString(PDStringEncoding, int32_t, int32_t, const char*, ...), but this will set the font before displaying the string.
  *
  * @param[in] font     @c Font object.
  * @param[in] encoding PDStringEncoding value.
@@ -120,7 +126,7 @@ void pdText_DisplayString(PDStringEncoding encoding, int32_t x, int32_t y, const
  *                     Works identically to sprintf.
  *
  * @warning If you need to display multiple strings in the same font,
- * use this function for the first one and use @c pdText_DisplayString for the rest,
+ * use this function for the first one and use pdText_DisplayString(PDStringEncoding, int32_t, int32_t, const char*, ...) for the rest,
  * which will save a function call.
  */
 void pdText_DisplayStringWithFont(Font *font, uint32_t encoding, int32_t x, int32_t y, const char *fmt, ...);
@@ -131,7 +137,7 @@ void pdText_DisplayStringWithFont(Font *font, uint32_t encoding, int32_t x, int3
  * There's a potential performance impact;
  * avoid calling this API like every frame.
  *
- * @param[in] font     @c Font object.
+ * @param[in] font     #Font object.
  * @param[in] encoding @c PDStringEncoding value.
  * @param[in] text     string to display.
  *
@@ -140,9 +146,9 @@ void pdText_DisplayStringWithFont(Font *font, uint32_t encoding, int32_t x, int3
 uint16_t pdText_GetStringWidth(const Font *font, uint32_t encoding, const char *text);
 
 /**
- * @brief Frees the font loaded by @c pd_LoadFont.
+ * @brief Frees the font loaded by pdText_LoadFont(const char*, uint8_t, Font*, const char**).
  *
- * @param[in] font @c Font struct to free.
+ * @param[in] font #Font struct to free.
  */
 void pdText_FreeFont(Font *font);
 
