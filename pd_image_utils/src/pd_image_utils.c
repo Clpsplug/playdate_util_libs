@@ -71,7 +71,8 @@ void pdImageUtils_GetVerticalDither(
     uint8_t row,
     uint8_t rb,
     uint8_t threshold,
-    uint8_t max_value
+    uint8_t max_value,
+    PDImageUtilsDitheringDirection direction
 ) {
     /* Check parameter inconsistencies */
     if (buffer == NULL) {
@@ -100,7 +101,8 @@ void pdImageUtils_GetHorizontalDither(
     uint8_t row,
     uint8_t rb,
     uint8_t threshold,
-    uint8_t max_value
+    uint8_t max_value,
+    PDImageUtilsDitheringDirection direction
 ) {
     /* Check parameter inconsistencies */
     if (buffer == NULL) {

@@ -14,6 +14,7 @@ set(SUBPROJECTS
         support
         pd_shorthand
         pd_text
+        pd_image_utils
         pd_scene_engine
 )
 

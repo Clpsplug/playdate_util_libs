@@ -4,7 +4,7 @@
 
 * [Shorthand library](pd_shorthand/README.md)
 * [Text library](pd_text/README.md)
-* [Scene engine](scene_engine/README.md)
+* [Scene engine](pd_scene_engine/README.md)
 
 ## How to build / use
 

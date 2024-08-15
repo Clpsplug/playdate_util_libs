@@ -33,14 +33,29 @@ If you have an idea of what to add to this library, go ahead and make a PR!
 * This project is written in C11.
   * This is because example games in Playdate SDK specify C11 as the standard. See CMakeLists.txt of each example
     project.
-* If `PlaydateAPI*` is needed, obtain it using the following methods:
-  * If the module itself can be used as a system (e.g., `scene_engine`), define an initialization function.
-  * (less recommended) use `pd_get_pd()` in `pd_shorthand` library.
+* If `PlaydateAPI*` is needed, define an initialization function.
 * Install [EditorConfig](https://github.com/editorconfig/editorconfig) plugin if your IDE doesn't already support it.  
   This will help us keep the consistency across all the files.
 * Each function call adds to stack (= performance hits), so avoid a one-liner wrapper function.
   * If such a function still improves readability, then you are free to implement it.
   * Consider implementing such a functions as a macro function if it can be considered a syntax sugar.
+* If you make a struct or union, and you are sure that whatever code that uses it doesn't need to know about its members,
+  use an opaque pointer.
+  ```c
+  /* header */
+  struct DetailTag;
+  typedef DetailTag Detail;
+  void example(Detail* detail);
+  /* implementation */
+  #include "header"
+  struct DetailTag {
+    int x;
+    int y;
+  };
+  void example(Detail* detail) {
+    /* only this implementation can access Detail's members like detail->x + detail->y */
+  }
+  ```
 
 ### Comments
 
@@ -65,10 +80,10 @@ If you have an idea of what to add to this library, go ahead and make a PR!
 ### Files and Directories
 
 * The base library name and the folder name MUST match.
-  * Example: The `scene_engine` library has `scene_engine` as its target name.  
+  * Example: The `pd_scene_engine` library has `pd_scene_engine` as its target name.  
     See the `add_library` call to scene_engine/CMakeLists.txt.
 * The simulator build of the library MUST have `_Sim` appended to it.
-  * Example: `scene_engine` library's simulator build is called `scene_engine_Sim`
+  * Example: `pd_scene_engine` library's simulator build is called `pd_scene_engine_Sim`
 
 ### Variables
 
